@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ footer.company_name|default:"Agency" }}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="site-nav">
+        <a href="{% url 'home' %}" class="logo" aria-label="{{ footer.company_name|default:'Home' }}">
+            {% if footer.logo %}
+                <img src="{{ footer.logo.url }}" alt="{{ footer.company_name }}" class="logo-mark">
+            {% else %}
+                <span class="logo-text">{{ footer.company_name|default:"Agency" }}</span>
+            {% endif %}
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'projects:list' %}">Projects</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'news:list' %}">News</a></li>
+            <li><a href="{% url 'contact:form' %}">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="site-main">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer" id="site-footer">
+    <div class="footer-inner">
+        {% if footer %}
+            <div class="footer-company">
+                <div class="footer-brand">
+                    {% if footer.logo %}
+                        <img src="{{ footer.logo.url }}" alt="{{ footer.company_name }}" class="logo-mark">
+                    {% else %}
+                        <h3 class="logo-text">{{ footer.company_name }}</h3>
+                    {% endif %}
+                </div>
+                {% if footer.tagline %}<p>{{ footer.tagline }}</p>{% endif %}
+            </div>
+            <div class="footer-contact">
+                {% if footer.address %}<p>{{ footer.address }}</p>{% endif %}
+                {% if footer.email %}<p>Email: <a href="mailto:{{ footer.email }}">{{ footer.email }}</a></p>{% endif %}
+                {% if footer.phone %}<p>Phone: {{ footer.phone }}</p>{% endif %}
+            </div>
+            <div class="footer-social">
+                {% if footer.instagram %}<a href="{{ footer.instagram }}">Instagram</a>{% endif %}
+                {% if footer.facebook %}<a href="{{ footer.facebook }}">Facebook</a>{% endif %}
+                {% if footer.twitter %}<a href="{{ footer.twitter }}">Twitter</a>{% endif %}
+                {% if footer.linkedin %}<a href="{{ footer.linkedin }}">LinkedIn</a>{% endif %}
+                {% if footer.youtube %}<a href="{{ footer.youtube }}">YouTube</a>{% endif %}
+            </div>
+            {% if footer.copyright_text %}
+                <div class="footer-copy"><small>{{ footer.copyright_text }}</small></div>
+            {% endif %}
+        {% else %}
+            <p>Footer content — configure in admin.</p>
+        {% endif %}
+    </div>
+</footer>
+
+<script src="{% static 'js/animations.js' %}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

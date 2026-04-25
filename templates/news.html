@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+
+<section class="news-hero" id="news-hero">
+    <h1>News</h1>
+    {% if news_items %}
+        <div class="news-list">
+            {% for news in news_items %}
+                <article class="news-item">
+                    <h2>{{ news.name }}</h2>
+                    <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"F j, Y" }}</time>
+                    {% if news.description %}<p>{{ news.description|linebreaks }}</p>{% endif %}
+                    {% if news.images.all %}
+                        <div class="news-images">
+                            {% for img in news.images.all %}
+                                <figure>
+                                    <img src="{{ img.image.url }}" alt="{{ img.caption }}">
+                                </figure>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">No news items yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

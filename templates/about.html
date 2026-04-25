@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+<section class="about-section{% if about_info.background_image %} has-bg{% endif %}"
+         id="about"
+         {% if about_info.background_image %}style="background-image: url('{{ about_info.background_image.url }}');"{% endif %}>
+    <div class="about">
+        {% if about_info %}
+            <article class="about-who">
+                <h2>{{ about_info.who_we_are_title }}</h2>
+                <p>{{ about_info.who_we_are_body|linebreaks }}</p>
+            </article>
+            <article class="about-what">
+                <h2>{{ about_info.what_we_do_title }}</h2>
+                <p>{{ about_info.what_we_do_body|linebreaks }}</p>
+            </article>
+        {% else %}
+            <p>About content — configure in admin.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="team" id="team">
+    <h2>Our Team</h2>
+    {% if members %}
+        <ul class="team-list">
+            {% for member in members %}
+                <li class="team-member">
+                    {% if member.image %}
+                        <img src="{{ member.image.url }}" alt="{{ member.name }}">
+                    {% endif %}
+                    <h3>{{ member.name }}</h3>
+                    <p class="role">{{ member.role }}</p>
+                    {% if member.bio %}<p class="bio">{{ member.bio|linebreaks }}</p>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No team members added yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

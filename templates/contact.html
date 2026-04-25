@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+<section class="contact-page" id="contact">
+    <h1>Contact Us</h1>
+    <p>Have a project, question, or idea? Send us a message.</p>
+
+    <form method="post" class="contact-form" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.name == "website" %}
+                <div class="hp-field" aria-hidden="true">
+                    <label for="{{ field.id_for_label }}">Leave this field empty</label>
+                    {{ field }}
+                </div>
+            {% else %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="errors">
+                            {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+{% endblock %}

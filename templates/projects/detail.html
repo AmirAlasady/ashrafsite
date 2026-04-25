@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+
+<article class="project-detail">
+    <h1>{{ project.name }}</h1>
+
+    {% if project.bio %}
+        <div class="project-bio">
+            <p>{{ project.bio|linebreaks }}</p>
+        </div>
+    {% endif %}
+
+    <div class="project-video{% if not project.video and not project.video_url %} placeholder{% endif %}">
+        {% if project.video %}
+            <video controls>
+                <source src="{{ project.video.url }}">
+            </video>
+        {% elif project.video_url %}
+            <a href="{{ project.video_url }}">Watch video</a>
+        {% else %}
+            <svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+            </svg>
+            <span class="placeholder-label">Video coming soon</span>
+        {% endif %}
+    </div>
+
+    {% if project.images.all %}
+        <div class="project-images">
+            {% for img in project.images.all %}
+                <figure>
+                    <img src="{{ img.image.url }}" alt="{{ img.caption }}">
+                    {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
+                </figure>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p><a href="{% url 'projects:list' %}">&larr; Back to all projects</a></p>
+</article>
+
+{% endblock %}
