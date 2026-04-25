@@ -128,6 +128,10 @@ else:
         "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
     }
 
+# Don't fail collectstatic when CSS references files that don't exist yet
+# (e.g. font files we haven't uploaded). Missing URLs are left as-is.
+WHITENOISE_MANIFEST_STRICT = False
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --------------------------------------------------------------------------- #
