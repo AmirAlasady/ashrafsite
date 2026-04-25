@@ -116,7 +116,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# WhiteNoise: compress + hash filenames in prod, plain in dev
+# WhiteNoise: compress static files in prod, plain in dev.
+# CompressedStaticFilesStorage compresses (gzip + brotli) without rewriting
+# filenames. This avoids collectstatic post-processing which would fail when
+# CSS references files that don't exist yet (e.g. font files not uploaded).
+# Switch to CompressedManifestStaticFilesStorage once all referenced assets
+# exist, to get content-hashed filenames for long-term browser caching.
 if DEBUG:
     STORAGES = {
         "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
@@ -125,12 +130,8 @@ if DEBUG:
 else:
     STORAGES = {
         "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-        "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+        "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
     }
-
-# Don't fail collectstatic when CSS references files that don't exist yet
-# (e.g. font files we haven't uploaded). Missing URLs are left as-is.
-WHITENOISE_MANIFEST_STRICT = False
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
