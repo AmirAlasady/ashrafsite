@@ -42,18 +42,9 @@
 <footer class="site-footer" id="site-footer">
     {% if footer %}
         <div class="footer-inner">
-            {% if footer.logo or footer.company_name or footer.tagline %}
+            {% if footer.tagline %}
                 <div class="footer-company">
-                    {% if footer.logo or footer.company_name %}
-                        <div class="footer-brand">
-                            {% if footer.logo %}
-                                <img src="{{ footer.logo.url }}" alt="{{ footer.company_name }}" class="logo-mark">
-                            {% elif footer.company_name %}
-                                <h3 class="logo-text">{{ footer.company_name }}</h3>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    {% if footer.tagline %}<p>{{ footer.tagline }}</p>{% endif %}
+                    <p>{{ footer.tagline }}</p>
                 </div>
             {% endif %}
 
