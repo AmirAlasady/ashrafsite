@@ -4,25 +4,24 @@
 
 {% block content %}
 
-<section class="news-hero" id="news-hero">
+<section class="news-page" id="news">
     <h1>News</h1>
+
     {% if news_items %}
-        <div class="news-list">
+        <div class="news-grid">
             {% for news in news_items %}
-                <article class="news-item">
-                    <h2>{{ news.name }}</h2>
-                    <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"F j, Y" }}</time>
-                    {% if news.description %}<p>{{ news.description|linebreaks }}</p>{% endif %}
-                    {% if news.images.all %}
-                        <div class="news-images">
-                            {% for img in news.images.all %}
-                                <figure>
-                                    <img src="{{ img.image.url }}" alt="{{ img.caption }}">
-                                </figure>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </article>
+                <a href="{% url 'news:detail' news.pk %}" class="news-card" aria-label="{{ news.name }}">
+                    {% with cover=news.images.first %}
+                        {% if cover %}
+                            <img src="{{ cover.image.url }}" alt="{{ news.name }}">
+                        {% else %}
+                            <span class="news-card-placeholder"></span>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="news-card-overlay">
+                        <span class="news-card-title">{{ news.name }}</span>
+                    </div>
+                </a>
             {% endfor %}
         </div>
     {% else %}

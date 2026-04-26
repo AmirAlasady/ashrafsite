@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ news.name }}{% endblock %}
+
+{% block content %}
+
+<article class="news-detail" id="news-detail">
+    <p class="news-detail-back"><a href="{% url 'news:list' %}">&larr; All news</a></p>
+
+    <h1>{{ news.name }}</h1>
+    <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"F j, Y" }}</time>
+
+    {% if news.description %}
+        <div class="news-detail-body">{{ news.description|linebreaks }}</div>
+    {% endif %}
+
+    {% if news.images.all %}
+        <div class="news-detail-images">
+            {% for img in news.images.all %}
+                <figure>
+                    <img src="{{ img.image.url }}" alt="{{ img.caption }}">
+                    {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
+                </figure>
+            {% endfor %}
+        </div>
+    {% endif %}
+</article>
+
+{% endblock %}
