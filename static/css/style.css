@@ -191,27 +191,33 @@ section > h2 {
     margin: 0 auto;
 }
 
-.hero-services {
-    margin-top: 1.75rem;
-    max-width: 780px;
-    margin-left: auto;
-    margin-right: auto;
+/* ---------- Our Services (full-width section under hero) ---------- */
+.services-section {
+    background: #000;
+    padding: 5rem 1.5rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 }
-.hero-services-title {
+.services-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+}
+.services-title {
     font-family: "GARODemo", serif;
-    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--text);
-    margin: 0 0 0.6rem;
+    margin: 0 0 1.5rem;
 }
-.hero-services-list {
+.services-list {
     font-family: "Alyamama", sans-serif;
-    font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
     font-weight: 300;
-    line-height: 1.7;
-    color: rgba(242, 242, 242, 0.78);
+    line-height: 1.85;
+    color: rgba(242, 242, 242, 0.82);
     margin: 0;
 }
 
@@ -249,7 +255,6 @@ section > h2 {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 4rem;
     width: max-content;
     animation: clients-scroll 35s linear infinite;
 }
@@ -261,6 +266,9 @@ section > h2 {
     justify-content: center;
     min-width: 160px;
     height: 80px;
+    /* Each item carries its trailing space, so the duplicate set lands
+       exactly at -50% with no gap on loop reset. */
+    margin-right: 4rem;
     opacity: 0.7;
     transition: opacity 0.3s ease;
 }
@@ -343,12 +351,21 @@ section > h2 {
     will-change: transform;
 }
 .bts-slide {
-    flex: 0 0 calc(80% - 0.5rem);
+    flex: 0 0 70%;
     aspect-ratio: 16 / 9;
     position: relative;
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--surface-2);
+    opacity: 0.45;
+    transform: scale(0.92);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    cursor: pointer;
+}
+.bts-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+    cursor: default;
 }
 .bts-slide img {
     width: 100%;
@@ -364,7 +381,10 @@ section > h2 {
     font-size: 0.95rem;
     font-family: "Alyamama", sans-serif;
     font-weight: 300;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
+.bts-slide.is-active figcaption { opacity: 1; }
 .bts-btn {
     position: absolute;
     top: 50%;
@@ -396,7 +416,7 @@ section > h2 {
 .bts-btn-next { right: 0.75rem; }
 
 @media (max-width: 768px) {
-    .bts-slide { flex: 0 0 calc(90% - 0.5rem); }
+    .bts-slide { flex: 0 0 86%; }
     .bts-btn { width: 44px; height: 44px; font-size: 1.3rem; }
 }
 

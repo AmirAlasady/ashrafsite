@@ -24,11 +24,12 @@
         var slider = document.querySelector(".bts-slider");
         if (!slider) return;
 
+        var viewport = slider.querySelector(".bts-viewport");
         var track = slider.querySelector(".bts-track");
         var slides = track.querySelectorAll(".bts-slide");
         var prev = slider.querySelector(".bts-btn-prev");
         var next = slider.querySelector(".bts-btn-next");
-        if (!slides.length || !prev || !next) return;
+        if (!slides.length || !prev || !next || !viewport) return;
 
         var idx = 0;
         var total = slides.length;
@@ -38,17 +39,29 @@
             return isNaN(gap) ? 16 : gap;
         }
 
-        function slidePx() {
-            return slides[0].offsetWidth + gapPx();
-        }
-
         function goTo(newIdx) {
             idx = ((newIdx % total) + total) % total;
-            track.style.transform = "translateX(" + (-idx * slidePx()) + "px)";
+            var slideWidth = slides[0].offsetWidth;
+            var stride = slideWidth + gapPx();
+            // Center the active slide inside the viewport
+            var sidePeek = (viewport.offsetWidth - slideWidth) / 2;
+            var translate = sidePeek - idx * stride;
+            track.style.transform = "translateX(" + translate + "px)";
+
+            slides.forEach(function (s, i) {
+                s.classList.toggle("is-active", i === idx);
+            });
         }
 
         prev.addEventListener("click", function () { goTo(idx - 1); });
         next.addEventListener("click", function () { goTo(idx + 1); });
+
+        // Click a peek slide to focus it
+        slides.forEach(function (s, i) {
+            s.addEventListener("click", function () {
+                if (i !== idx) goTo(i);
+            });
+        });
 
         var resizeTimer;
         window.addEventListener("resize", function () {
