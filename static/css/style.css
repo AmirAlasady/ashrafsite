@@ -1,12 +1,14 @@
 /* ---------- Custom fonts ---------- */
 /* Drop the font files into /static/fonts/ — names below must match exactly. */
+/* font-display: block hides text until the custom font loads, so users
+   never see a fallback font flash before the real one shows up. */
 @font-face {
     font-family: "GARODemo";
     src: url("../fonts/GARODemo.woff2") format("woff2"),
          url("../fonts/GARODemo.woff") format("woff"),
          url("../fonts/GARODemo.ttf") format("truetype"),
          url("../fonts/GARODemo.otf") format("opentype");
-    font-display: swap;
+    font-display: block;
     font-weight: 400;
     font-style: normal;
 }
@@ -14,7 +16,7 @@
 @font-face {
     font-family: "Alyamama";
     src: url("../fonts/ArbFONTS-Alyamama-Light.ttf") format("truetype");
-    font-display: swap;
+    font-display: block;
     font-weight: 300;
     font-style: normal;
 }
@@ -146,15 +148,9 @@ section > h2 {
     overflow: hidden;
     display: flex;
     align-items: flex-end;
+    justify-content: center;
     padding: 0 1.5rem 4rem;
     border-bottom: 1px solid var(--border);
-}
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.35) 0%, rgba(10, 10, 10, 0.92) 100%);
-    z-index: 1;
 }
 .hero-media {
     position: absolute;
@@ -162,7 +158,7 @@ section > h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.75;
+    opacity: 1;
 }
 .hero-content {
     position: relative;
@@ -170,27 +166,27 @@ section > h2 {
     width: 100%;
     max-width: var(--maxw);
     margin: 0 auto;
-    text-align: left;
+    text-align: center;
 }
 .hero-title {
-    font-family: "GARODemo", "Cinzel", "Playfair Display", Georgia, serif;
+    font-family: "GARODemo", serif;
     font-size: clamp(1.3rem, 2.5vw, 2rem);
     font-weight: 400;
     line-height: 1.15;
     letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
-    max-width: 600px;
+    margin: 0 auto 0.75rem;
+    max-width: 700px;
     text-transform: uppercase;
     color: var(--text);
 }
 .hero-description {
-    font-family: "Alyamama", "Tajawal", "Cairo", system-ui, sans-serif;
+    font-family: "Alyamama", sans-serif;
     font-size: clamp(0.9rem, 1.1vw, 1.05rem);
     font-weight: 300;
-    color: rgba(242, 242, 242, 0.85);
+    color: rgba(242, 242, 242, 0.95);
     max-width: 720px;
     line-height: 1.65;
-    margin: 0;
+    margin: 0 auto;
 }
 
 .hero-body-text {
