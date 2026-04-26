@@ -71,7 +71,7 @@ class BehindTheScenesImage(models.Model):
 
 
 class FooterInfo(models.Model):
-    company_name = models.CharField(max_length=150)
+    company_name = models.CharField(max_length=150, blank=True)
     logo = models.ImageField(upload_to="site/", blank=True, null=True)
     favicon = models.ImageField(
         upload_to="site/",

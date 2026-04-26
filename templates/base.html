@@ -40,37 +40,46 @@
 </main>
 
 <footer class="site-footer" id="site-footer">
-    <div class="footer-inner">
-        {% if footer %}
-            <div class="footer-company">
-                <div class="footer-brand">
-                    {% if footer.logo %}
-                        <img src="{{ footer.logo.url }}" alt="{{ footer.company_name }}" class="logo-mark">
-                    {% else %}
-                        <h3 class="logo-text">{{ footer.company_name }}</h3>
+    {% if footer %}
+        <div class="footer-inner">
+            {% if footer.logo or footer.company_name or footer.tagline %}
+                <div class="footer-company">
+                    {% if footer.logo or footer.company_name %}
+                        <div class="footer-brand">
+                            {% if footer.logo %}
+                                <img src="{{ footer.logo.url }}" alt="{{ footer.company_name }}" class="logo-mark">
+                            {% elif footer.company_name %}
+                                <h3 class="logo-text">{{ footer.company_name }}</h3>
+                            {% endif %}
+                        </div>
                     {% endif %}
+                    {% if footer.tagline %}<p>{{ footer.tagline }}</p>{% endif %}
                 </div>
-                {% if footer.tagline %}<p>{{ footer.tagline }}</p>{% endif %}
-            </div>
-            <div class="footer-contact">
-                {% if footer.address %}<p>{{ footer.address }}</p>{% endif %}
-                {% if footer.email %}<p>Email: <a href="mailto:{{ footer.email }}">{{ footer.email }}</a></p>{% endif %}
-                {% if footer.phone %}<p>Phone: {{ footer.phone }}</p>{% endif %}
-            </div>
-            <div class="footer-social">
-                {% if footer.instagram %}<a href="{{ footer.instagram }}">Instagram</a>{% endif %}
-                {% if footer.facebook %}<a href="{{ footer.facebook }}">Facebook</a>{% endif %}
-                {% if footer.twitter %}<a href="{{ footer.twitter }}">Twitter</a>{% endif %}
-                {% if footer.linkedin %}<a href="{{ footer.linkedin }}">LinkedIn</a>{% endif %}
-                {% if footer.youtube %}<a href="{{ footer.youtube }}">YouTube</a>{% endif %}
-            </div>
+            {% endif %}
+
+            {% if footer.address or footer.email or footer.phone %}
+                <div class="footer-contact">
+                    {% if footer.address %}<p>{{ footer.address }}</p>{% endif %}
+                    {% if footer.email %}<p>Email: <a href="mailto:{{ footer.email }}">{{ footer.email }}</a></p>{% endif %}
+                    {% if footer.phone %}<p>Phone: {{ footer.phone }}</p>{% endif %}
+                </div>
+            {% endif %}
+
+            {% if footer.instagram or footer.facebook or footer.twitter or footer.linkedin or footer.youtube %}
+                <div class="footer-social">
+                    {% if footer.instagram %}<a href="{{ footer.instagram }}">Instagram</a>{% endif %}
+                    {% if footer.facebook %}<a href="{{ footer.facebook }}">Facebook</a>{% endif %}
+                    {% if footer.twitter %}<a href="{{ footer.twitter }}">Twitter</a>{% endif %}
+                    {% if footer.linkedin %}<a href="{{ footer.linkedin }}">LinkedIn</a>{% endif %}
+                    {% if footer.youtube %}<a href="{{ footer.youtube }}">YouTube</a>{% endif %}
+                </div>
+            {% endif %}
+
             {% if footer.copyright_text %}
                 <div class="footer-copy"><small>{{ footer.copyright_text }}</small></div>
             {% endif %}
-        {% else %}
-            <p>Footer content — configure in admin.</p>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </footer>
 
 <script src="{% static 'js/animations.js' %}"></script>

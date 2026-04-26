@@ -18,6 +18,11 @@
         {% if hero_description %}
             <p class="hero-description">{{ hero_description.text }}</p>
         {% endif %}
+
+        <div class="hero-services">
+            <h2 class="hero-services-title">Our Services</h2>
+            <p class="hero-services-list">Professional Scriptwriting and Story Development &mdash; Expert Storyboard Creation and Planning &mdash; High-Quality Filming and Direction with Artistic Vision &mdash; Comprehensive Editing and Post-Production Services for Polished Results &mdash; Cutting-Edge Visual Effects (VFX) for Stunning Visual Impact &mdash; Advanced Animation Production for Dynamic and Engaging Content</p>
+        </div>
     </div>
 </section>
 
@@ -78,19 +83,31 @@
 <section class="clients" id="clients">
     <h2>Our Clients</h2>
     {% if clients %}
-        <ul class="clients-list">
-            {% for client in clients %}
-                <li class="client-item">
-                    {% if client.website %}<a href="{{ client.website }}">{% endif %}
+        <div class="clients-marquee">
+            <ul class="clients-track">
+                {% for client in clients %}
+                    <li class="client-item">
+                        {% if client.website %}<a href="{{ client.website }}" target="_blank" rel="noopener">{% endif %}
+                            {% if client.logo %}
+                                <img src="{{ client.logo.url }}" alt="{{ client.name }}" loading="lazy">
+                            {% else %}
+                                <span>{{ client.name }}</span>
+                            {% endif %}
+                        {% if client.website %}</a>{% endif %}
+                    </li>
+                {% endfor %}
+                {# Duplicate the list for a seamless infinite loop #}
+                {% for client in clients %}
+                    <li class="client-item" aria-hidden="true">
                         {% if client.logo %}
-                            <img src="{{ client.logo.url }}" alt="{{ client.name }}">
+                            <img src="{{ client.logo.url }}" alt="" loading="lazy">
                         {% else %}
                             <span>{{ client.name }}</span>
                         {% endif %}
-                    {% if client.website %}</a>{% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     {% else %}
         <p>No clients added yet.</p>
     {% endif %}
@@ -99,13 +116,19 @@
 <section class="behind-the-scenes" id="bts">
     <h2>Behind the Scenes</h2>
     {% if bts_images %}
-        <div class="bts-grid">
-            {% for bts in bts_images %}
-                <figure class="bts-item animate" data-animation="{{ bts.animation }}">
-                    <img src="{{ bts.image.url }}" alt="{{ bts.caption }}">
-                    {% if bts.caption %}<figcaption>{{ bts.caption }}</figcaption>{% endif %}
-                </figure>
-            {% endfor %}
+        <div class="bts-slider">
+            <button class="bts-btn bts-btn-prev" type="button" aria-label="Previous slide">&#8249;</button>
+            <div class="bts-viewport">
+                <div class="bts-track">
+                    {% for bts in bts_images %}
+                        <figure class="bts-slide">
+                            <img src="{{ bts.image.url }}" alt="{{ bts.caption }}" loading="lazy">
+                            {% if bts.caption %}<figcaption>{{ bts.caption }}</figcaption>{% endif %}
+                        </figure>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="bts-btn bts-btn-next" type="button" aria-label="Next slide">&#8250;</button>
         </div>
     {% else %}
         <p>No behind-the-scenes images yet.</p>
