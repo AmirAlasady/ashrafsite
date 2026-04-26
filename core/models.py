@@ -73,6 +73,12 @@ class BehindTheScenesImage(models.Model):
 class FooterInfo(models.Model):
     company_name = models.CharField(max_length=150)
     logo = models.ImageField(upload_to="site/", blank=True, null=True)
+    favicon = models.ImageField(
+        upload_to="site/",
+        blank=True,
+        null=True,
+        help_text="Browser tab icon. Should be a small square image with transparent background.",
+    )
     tagline = models.CharField(max_length=250, blank=True)
     address = models.CharField(max_length=250, blank=True)
     email = models.EmailField(blank=True)
