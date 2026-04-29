@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ footer.company_name|default:"Agency" }}{% endblock %}</title>
-    {% with fav=footer.favicon|default:footer.logo %}
-        {% if fav %}
-            <link rel="icon" type="image/png" href="{{ fav.url }}">
-            <link rel="apple-touch-icon" href="{{ fav.url }}">
-        {% endif %}
-    {% endwith %}
+    {% if footer %}
+        {% with fav=footer.favicon|default:footer.logo %}
+            {% if fav %}
+                <link rel="icon" type="image/png" href="{{ fav.url }}">
+                <link rel="apple-touch-icon" href="{{ fav.url }}">
+            {% endif %}
+        {% endwith %}
+    {% endif %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_head %}{% endblock %}
 </head>

@@ -334,10 +334,19 @@ section > h2 {
 }
 .service:hover span { color: var(--accent); }
 
-/* ---------- Behind the Scenes (horizontal slider) ---------- */
-.bts-slider {
+/* ---------- Behind the Scenes (horizontal slider, full-bleed) ---------- */
+.behind-the-scenes {
+    padding: 5rem 0;
+}
+.behind-the-scenes > h2 {
     max-width: var(--maxw);
-    margin: 0 auto;
+    margin: 0 auto 2.5rem;
+    padding: 0 1.5rem;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+}
+.bts-slider {
+    width: 100%;
+    margin: 0;
     position: relative;
 }
 .bts-viewport {
