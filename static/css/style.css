@@ -776,8 +776,8 @@ section > h2 {
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(10, 10, 10, 0.82) 0%,
-        rgba(10, 10, 10, 0.92) 100%
+        rgba(10, 10, 10, 0.62) 0%,
+        rgba(10, 10, 10, 0.72) 100%
     );
     pointer-events: none;
     z-index: 0;

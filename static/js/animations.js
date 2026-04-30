@@ -33,6 +33,10 @@
 
         var idx = 0;
         var total = slides.length;
+        var AUTO_INTERVAL_MS = 5000;
+        var autoTimer = null;
+        var prefersReducedMotion = window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         function gapPx() {
             var gap = parseFloat(getComputedStyle(track).gap || "16");
@@ -53,14 +57,33 @@
             });
         }
 
-        prev.addEventListener("click", function () { goTo(idx - 1); });
-        next.addEventListener("click", function () { goTo(idx + 1); });
+        function startAuto() {
+            if (autoTimer || prefersReducedMotion || total < 2) return;
+            autoTimer = setInterval(function () { goTo(idx + 1); }, AUTO_INTERVAL_MS);
+        }
+        function stopAuto() {
+            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+        }
+        function restartAuto() { stopAuto(); startAuto(); }
+
+        prev.addEventListener("click", function () { goTo(idx - 1); restartAuto(); });
+        next.addEventListener("click", function () { goTo(idx + 1); restartAuto(); });
 
         // Click a peek slide to focus it
         slides.forEach(function (s, i) {
             s.addEventListener("click", function () {
-                if (i !== idx) goTo(i);
+                if (i !== idx) { goTo(i); restartAuto(); }
             });
+        });
+
+        // Pause on hover/focus, resume on leave
+        slider.addEventListener("mouseenter", stopAuto);
+        slider.addEventListener("mouseleave", startAuto);
+        slider.addEventListener("focusin", stopAuto);
+        slider.addEventListener("focusout", startAuto);
+        // Pause when the tab isn't visible (saves battery, prevents drift)
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) stopAuto(); else startAuto();
         });
 
         var resizeTimer;
@@ -72,11 +95,12 @@
         // Keyboard support when slider is focused
         slider.tabIndex = 0;
         slider.addEventListener("keydown", function (e) {
-            if (e.key === "ArrowLeft") { goTo(idx - 1); }
-            if (e.key === "ArrowRight") { goTo(idx + 1); }
+            if (e.key === "ArrowLeft")  { goTo(idx - 1); restartAuto(); }
+            if (e.key === "ArrowRight") { goTo(idx + 1); restartAuto(); }
         });
 
         goTo(0);
+        startAuto();
     }
 
     function init() {
