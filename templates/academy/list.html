@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Ashraf Academy{% endblock %}
+
+{% block content %}
+
+<section class="academy-page" id="academy">
+    <h1>Ashraf Academy</h1>
+
+    {% if items %}
+        <div class="academy-grid">
+            {% for item in items %}
+                <a href="{% url 'academy:detail' item.pk %}" class="academy-card" aria-label="{{ item.name }}">
+                    {% with cover=item.images.first %}
+                        {% if cover %}
+                            <img src="{{ cover.image.url }}" alt="{{ item.name }}" loading="lazy">
+                        {% else %}
+                            <span class="academy-card-placeholder"></span>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="academy-card-overlay">
+                        <h2 class="academy-card-title">{{ item.name }}</h2>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">No academy items yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

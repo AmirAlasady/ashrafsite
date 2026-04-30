@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Behind The Scenes{% endblock %}
+
+{% block content %}
+
+<section class="bts-gallery-page" id="bts-gallery">
+    <h1>Behind The Scenes</h1>
+
+    {% if images %}
+        <div class="bts-gallery-grid">
+            {% for img in images %}
+                <figure class="bts-gallery-item">
+                    <img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy">
+                    {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
+                </figure>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">No behind-the-scenes images yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

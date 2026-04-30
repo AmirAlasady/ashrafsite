@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "team",
     "news",
     "contact",
+    "academy",
 ]
 
 MIDDLEWARE = [

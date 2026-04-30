@@ -3,6 +3,8 @@ from django.contrib import admin
 from .models import (
     AboutInfo,
     BehindTheScenesImage,
+    BTSGalleryImage,
+    CastingPage,
     Client,
     FooterInfo,
     HeroDescription,
@@ -49,3 +51,14 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("name", "is_published", "created_at")
     list_editable = ("is_published",)
     search_fields = ("name", "description")
+
+
+@admin.register(BTSGalleryImage)
+class BTSGalleryImageAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "order", "created_at")
+    list_editable = ("order",)
+
+
+@admin.register(CastingPage)
+class CastingPageAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "updated_at")

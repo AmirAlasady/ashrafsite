@@ -133,3 +133,45 @@ class Post(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BTSGalleryImage(models.Model):
+    """Independent gallery for the dedicated /behind-the-scenes/ page.
+    Not connected to BehindTheScenesImage (which feeds the home slider)."""
+
+    image = models.ImageField(upload_to="bts-gallery/")
+    caption = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+        verbose_name = "BTS Gallery Image"
+        verbose_name_plural = "BTS Gallery Images"
+
+    def __str__(self):
+        return self.caption or f"BTS Gallery #{self.pk}"
+
+
+class CastingPage(models.Model):
+    """Singleton-style content for the /casting/ page."""
+
+    background_image = models.ImageField(
+        upload_to="casting/",
+        blank=True,
+        null=True,
+    )
+    description = models.TextField(
+        blank=True,
+        help_text="Text shown over the background image (bottom-left).",
+    )
+    button_label = models.CharField(max_length=100, default="View on Instagram")
+    button_url = models.URLField(default="https://www.instagram.com/bsrcast/")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Casting Page"
+        verbose_name_plural = "Casting Page"
+
+    def __str__(self):
+        return "Casting page"

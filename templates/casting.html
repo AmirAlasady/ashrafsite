@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Casting{% endblock %}
+
+{% block content %}
+
+<section class="casting-hero{% if casting.background_image %} has-bg{% endif %}"
+         id="casting"
+         {% if casting.background_image %}style="background-image: url('{{ casting.background_image.url }}');"{% endif %}>
+    <div class="casting-content">
+        {% if casting.description %}
+            <p class="casting-description">{{ casting.description|linebreaks }}</p>
+        {% endif %}
+        <a href="{{ casting.button_url }}" class="casting-button" target="_blank" rel="noopener">
+            {{ casting.button_label|default:"View on Instagram" }}
+        </a>
+    </div>
+</section>
+
+{% endblock %}

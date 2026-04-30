@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ item.name }} — Ashraf Academy{% endblock %}
+
+{% block content %}
+
+<article class="project" id="academy-{{ item.pk }}">
+    <p class="news-detail-back"><a href="{% url 'academy:list' %}">&larr; All academy items</a></p>
+
+    <h1>{{ item.name }}</h1>
+
+    {% if item.bio %}
+        <div class="project-bio">
+            <p>{{ item.bio|linebreaks }}</p>
+        </div>
+    {% endif %}
+
+    <div class="project-video{% if not item.video and not item.video_url %} placeholder{% endif %}">
+        {% if item.video %}
+            <video controls>
+                <source src="{{ item.video.url }}">
+            </video>
+        {% elif item.video_url %}
+            <a href="{{ item.video_url }}" target="_blank" rel="noopener">Watch video</a>
+        {% else %}
+            <svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+            </svg>
+            <span class="placeholder-label">Video coming soon</span>
+        {% endif %}
+    </div>
+
+    {% if item.images.all %}
+        <div class="project-images">
+            {% for img in item.images.all %}
+                <figure>
+                    <img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy">
+                    {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
+                </figure>
+            {% endfor %}
+        </div>
+    {% endif %}
+</article>
+
+{% endblock %}
