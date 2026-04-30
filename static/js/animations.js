@@ -33,7 +33,7 @@
 
         var idx = 0;
         var total = slides.length;
-        var AUTO_INTERVAL_MS = 2400;
+        var AUTO_INTERVAL_MS = 3500;
         var autoTimer = null;
         var prefersReducedMotion = window.matchMedia &&
             window.matchMedia("(prefers-reduced-motion: reduce)").matches;
