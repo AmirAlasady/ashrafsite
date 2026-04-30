@@ -805,6 +805,19 @@ section > h2 {
     .news-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
 }
 
+/* ---------- Arabic content (auto-applied via news_extras filter) ---------- */
+.lang-ar {
+    font-family: "Alyamama", "Segoe UI", sans-serif;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.85;
+}
+/* Inherit through linebreaks-wrapped paragraphs */
+.lang-ar p {
+    direction: rtl;
+    text-align: right;
+}
+
 /* ---------- News detail page ---------- */
 .news-detail {
     max-width: 900px;

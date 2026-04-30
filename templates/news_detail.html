@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load news_extras %}
 
 {% block title %}{{ news.name }}{% endblock %}
 
@@ -7,11 +8,11 @@
 <article class="news-detail" id="news-detail">
     <p class="news-detail-back"><a href="{% url 'news:list' %}">&larr; All news</a></p>
 
-    <h1>{{ news.name }}</h1>
+    <h1 class="{{ news.name|arabic_class }}">{{ news.name }}</h1>
     <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"F j, Y" }}</time>
 
     {% if news.description %}
-        <div class="news-detail-body">{{ news.description|linebreaks }}</div>
+        <div class="news-detail-body {{ news.description|arabic_class }}">{{ news.description|linebreaks }}</div>
     {% endif %}
 
     {% if news.images.all %}

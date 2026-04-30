@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load news_extras %}
 
 {% block title %}News{% endblock %}
 
@@ -19,7 +20,7 @@
                         {% endif %}
                     {% endwith %}
                     <div class="news-card-overlay">
-                        <span class="news-card-title">{{ news.name }}</span>
+                        <span class="news-card-title {{ news.name|arabic_class }}">{{ news.name }}</span>
                     </div>
                 </a>
             {% endfor %}
