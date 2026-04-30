@@ -4,13 +4,29 @@
 
 {% block content %}
 
-<section class="casting-hero{% if casting.background_image %} has-bg{% endif %}"
-         id="casting"
-         {% if casting.background_image %}style="background-image: url('{{ casting.background_image.url }}');"{% endif %}>
+<section class="casting-hero" id="casting" data-auto-interval="8000">
+    <div class="casting-slides">
+        {% for slide in slides %}
+            <div class="casting-slide{% if forloop.first %} is-active{% endif %}"
+                 {% if slide.background_image %}style="background-image: url('{{ slide.background_image.url }}');"{% endif %}>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="casting-overlay"></div>
+
     <div class="casting-content">
-        {% if casting.description %}
-            <p class="casting-description">{{ casting.description|linebreaks }}</p>
-        {% endif %}
+        {% for slide in slides %}
+            <div class="casting-text{% if forloop.first %} is-active{% endif %}">
+                {% if slide.headline %}
+                    <h1 class="casting-headline">{{ slide.headline }}</h1>
+                {% endif %}
+                {% if slide.description %}
+                    <div class="casting-description">{{ slide.description|linebreaks }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
         <a href="{{ casting.button_url }}" class="casting-button" target="_blank" rel="noopener">
             {{ casting.button_label|default:"View on Instagram" }}
         </a>

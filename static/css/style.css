@@ -590,7 +590,7 @@ section > h2 {
     .bts-gallery-item { height: 180px; min-width: 140px; }
 }
 
-/* ---------- Casting page (large hero with bottom-left text + button) ---------- */
+/* ---------- Casting page (auto-rotating hero) ---------- */
 .casting-hero {
     position: relative;
     min-height: 92vh;
@@ -601,19 +601,28 @@ section > h2 {
     border-bottom: 1px solid var(--border);
     background-color: var(--surface-2);
 }
-.casting-hero.has-bg {
+.casting-slides {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+.casting-slide {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
 }
-.casting-hero::before {
-    content: "";
+.casting-slide.is-active { opacity: 1; }
+.casting-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(10, 10, 10, 0.20) 0%,
-        rgba(10, 10, 10, 0.70) 100%
+        rgba(10, 10, 10, 0.30) 0%,
+        rgba(10, 10, 10, 0.78) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -626,14 +635,35 @@ section > h2 {
     margin: 0 auto;
     text-align: left;
 }
+.casting-text {
+    display: none;
+}
+.casting-text.is-active {
+    display: block;
+    animation: casting-text-fade 0.9s ease-in-out;
+}
+@keyframes casting-text-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.casting-headline {
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0 0 1.25rem;
+    max-width: 1000px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+}
 .casting-description {
     font-family: "Alyamama", sans-serif;
     font-size: clamp(1rem, 1.4vw, 1.25rem);
     font-weight: 300;
     color: rgba(242, 242, 242, 0.95);
-    max-width: 640px;
+    max-width: 1000px;
     line-height: 1.7;
-    margin: 0 0 2rem;
+    margin: 0 0 3.5rem;
 }
 .casting-button {
     display: inline-block;
@@ -646,6 +676,7 @@ section > h2 {
     font-size: 0.9rem;
     border-radius: var(--radius);
     transition: transform 0.2s, filter 0.2s;
+    margin-top: 1rem;
 }
 .casting-button:hover {
     transform: translateY(-2px);

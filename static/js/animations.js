@@ -171,10 +171,49 @@
         });
     }
 
+    function initCastingSlider() {
+        var hero = document.querySelector(".casting-hero");
+        if (!hero) return;
+        var slides = hero.querySelectorAll(".casting-slide");
+        var texts = hero.querySelectorAll(".casting-text");
+        if (slides.length < 2) return; // single slide → no rotation
+
+        var interval = parseInt(hero.getAttribute("data-auto-interval"), 10);
+        if (!interval || isNaN(interval)) interval = 8000;
+
+        var idx = 0;
+        var timer = null;
+
+        function show(newIdx) {
+            idx = (newIdx + slides.length) % slides.length;
+            slides.forEach(function (el, i) {
+                el.classList.toggle("is-active", i === idx);
+            });
+            texts.forEach(function (el, i) {
+                el.classList.toggle("is-active", i === idx);
+            });
+        }
+
+        function start() {
+            if (timer) return;
+            timer = setInterval(function () { show(idx + 1); }, interval);
+        }
+        function stop() {
+            if (timer) { clearInterval(timer); timer = null; }
+        }
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) stop(); else start();
+        });
+
+        start();
+    }
+
     function init() {
         initRevealAnimations();
         initBtsSlider();
         initClientsMarquee();
+        initCastingSlider();
     }
 
     if (document.readyState === "loading") {

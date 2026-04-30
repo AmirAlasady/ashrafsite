@@ -5,6 +5,7 @@ from .models import (
     BehindTheScenesImage,
     BTSGalleryImage,
     CastingPage,
+    CastingSlide,
     Client,
     FooterInfo,
     HeroDescription,
@@ -61,4 +62,11 @@ class BTSGalleryImageAdmin(admin.ModelAdmin):
 
 @admin.register(CastingPage)
 class CastingPageAdmin(admin.ModelAdmin):
-    list_display = ("__str__", "updated_at")
+    list_display = ("__str__", "headline", "updated_at")
+
+
+@admin.register(CastingSlide)
+class CastingSlideAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "headline", "order")
+    list_editable = ("order",)
+    ordering = ("order",)

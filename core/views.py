@@ -7,6 +7,7 @@ from .models import (
     BTSGalleryImage,
     BehindTheScenesImage,
     CastingPage,
+    CastingSlide,
     Client,
     HeroDescription,
     HeroSection,
@@ -52,4 +53,15 @@ def casting(request):
     casting_obj = CastingPage.objects.first()
     if casting_obj is None:
         casting_obj = CastingPage.objects.create()
-    return render(request, "casting.html", {"casting": casting_obj})
+
+    slides = list(CastingSlide.objects.all())
+    if not slides:
+        # Fall back to the CastingPage's own content as a single slide so the
+        # template only needs to know about a uniform `slides` list.
+        slides = [casting_obj]
+
+    return render(
+        request,
+        "casting.html",
+        {"casting": casting_obj, "slides": slides},
+    )

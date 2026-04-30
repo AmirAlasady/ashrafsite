@@ -154,8 +154,15 @@ class BTSGalleryImage(models.Model):
 
 
 class CastingPage(models.Model):
-    """Singleton-style content for the /casting/ page."""
+    """Singleton-style content for the /casting/ page.
+    Holds the call-to-action button + a default slide. For an auto-rotating
+    slider, add one or more CastingSlide rows."""
 
+    headline = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Large headline shown above the description.",
+    )
     background_image = models.ImageField(
         upload_to="casting/",
         blank=True,
@@ -175,3 +182,22 @@ class CastingPage(models.Model):
 
     def __str__(self):
         return "Casting page"
+
+
+class CastingSlide(models.Model):
+    """Optional extra slides for the casting page auto-rotator. If at least one
+    exists, the page cycles through them. Otherwise it falls back to the
+    CastingPage's own headline/description/background_image."""
+
+    headline = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    background_image = models.ImageField(upload_to="casting/", blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "pk"]
+        verbose_name = "Casting Slide"
+        verbose_name_plural = "Casting Slides"
+
+    def __str__(self):
+        return self.headline or f"Casting Slide #{self.pk}"
