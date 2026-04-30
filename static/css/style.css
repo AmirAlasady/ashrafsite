@@ -774,11 +774,7 @@ section > h2 {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(10, 10, 10, 0.62) 0%,
-        rgba(10, 10, 10, 0.72) 100%
-    );
+    background: rgba(0, 0, 0, 0.2);
     pointer-events: none;
     z-index: 0;
 }
