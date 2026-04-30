@@ -87,6 +87,7 @@
     {% if clients %}
         <div class="clients-marquee">
             <ul class="clients-track">
+                {# Real set — accessible #}
                 {% for client in clients %}
                     <li class="client-item">
                         {% if client.website %}<a href="{{ client.website }}" target="_blank" rel="noopener">{% endif %}
@@ -98,7 +99,17 @@
                         {% if client.website %}</a>{% endif %}
                     </li>
                 {% endfor %}
-                {# Duplicate the list for a seamless infinite loop #}
+                {# Two visual duplicates so the track is always > 2 viewports
+                   wide. Translate by -33.33% (= 1 set width) loops cleanly. #}
+                {% for client in clients %}
+                    <li class="client-item" aria-hidden="true">
+                        {% if client.logo %}
+                            <img src="{{ client.logo.url }}" alt="" loading="lazy">
+                        {% else %}
+                            <span>{{ client.name }}</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
                 {% for client in clients %}
                     <li class="client-item" aria-hidden="true">
                         {% if client.logo %}
