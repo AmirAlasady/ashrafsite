@@ -15,7 +15,13 @@ from .models import (
 
 
 def home(request):
-    hero_description, _ = HeroDescription.objects.get_or_create(pk=1)
+    # Singleton-style: return whatever row exists; only create one if the
+    # table is completely empty. This avoids creating a new pk=1 row that
+    # silently shadows admin edits made on a different pk.
+    hero_description = HeroDescription.objects.first()
+    if hero_description is None:
+        hero_description = HeroDescription.objects.create()
+
     context = {
         "hero": HeroSection.objects.filter(is_active=True).first(),
         "hero_description": hero_description,
@@ -43,5 +49,7 @@ def bts_gallery(request):
 
 
 def casting(request):
-    casting_obj, _ = CastingPage.objects.get_or_create(pk=1)
+    casting_obj = CastingPage.objects.first()
+    if casting_obj is None:
+        casting_obj = CastingPage.objects.create()
     return render(request, "casting.html", {"casting": casting_obj})
