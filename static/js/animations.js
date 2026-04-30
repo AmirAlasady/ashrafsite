@@ -103,9 +103,78 @@
         startAuto();
     }
 
+    function initClientsMarquee() {
+        var marquee = document.querySelector(".clients-marquee");
+        if (!marquee) return;
+        var track = marquee.querySelector(".clients-track");
+        if (!track) return;
+
+        var originalItems = Array.prototype.slice.call(track.children);
+        if (!originalItems.length) return;
+
+        function setSetWidthAndClone() {
+            // Reset to the original set only
+            while (track.children.length > originalItems.length) {
+                track.removeChild(track.lastChild);
+            }
+
+            var setWidth = 0;
+            originalItems.forEach(function (el) { setWidth += el.offsetWidth; });
+            if (setWidth <= 0) return;
+
+            // Clone until total track width >= 3x viewport. That guarantees
+            // the visible portion always shows >= 2 viewports worth of items,
+            // so when the loop resets the right edge is never empty.
+            var minWidth = Math.max(window.innerWidth * 3, setWidth * 2);
+            var totalWidth = setWidth;
+            while (totalWidth < minWidth) {
+                originalItems.forEach(function (el) {
+                    var clone = el.cloneNode(true);
+                    clone.setAttribute("aria-hidden", "true");
+                    var link = clone.querySelector("a");
+                    if (link) link.setAttribute("tabindex", "-1");
+                    track.appendChild(clone);
+                });
+                totalWidth += setWidth;
+            }
+
+            track.style.setProperty("--marquee-set-width", setWidth + "px");
+            track.classList.add("is-ready");
+        }
+
+        // Wait for images so offsetWidth is accurate
+        var imgs = track.querySelectorAll("img");
+        var pending = imgs.length;
+        if (pending === 0) {
+            setSetWidthAndClone();
+        } else {
+            imgs.forEach(function (img) {
+                if (img.complete) {
+                    if (--pending === 0) setSetWidthAndClone();
+                } else {
+                    img.addEventListener("load", function () {
+                        if (--pending === 0) setSetWidthAndClone();
+                    });
+                    img.addEventListener("error", function () {
+                        if (--pending === 0) setSetWidthAndClone();
+                    });
+                }
+            });
+            // Fallback in case events never fire
+            setTimeout(setSetWidthAndClone, 1500);
+        }
+
+        var resizeTimer;
+        window.addEventListener("resize", function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(setSetWidthAndClone, 200);
+        });
+    }
+
     function init() {
         initRevealAnimations();
         initBtsSlider();
+        initClientsMarquee();
     }
 
     if (document.readyState === "loading") {
