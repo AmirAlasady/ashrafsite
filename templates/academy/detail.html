@@ -107,29 +107,23 @@
 
     <h1 class="pd-title">{{ item.name }}</h1>
 
-    <div class="pd-video">
-        {% if item.video %}
-            <video controls>
-                <source src="{{ item.video.url }}">
-            </video>
-        {% elif item.video_url %}
-            <a class="pd-video-fallback" href="{{ item.video_url }}" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
-                </svg>
-                <span>Watch video</span>
-            </a>
-        {% else %}
-            <div class="pd-video-fallback">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
-                </svg>
-                <span>Video coming soon</span>
-            </div>
-        {% endif %}
-    </div>
+    {% if item.video or item.video_url %}
+        <div class="pd-video">
+            {% if item.video %}
+                <video controls>
+                    <source src="{{ item.video.url }}">
+                </video>
+            {% else %}
+                <a class="pd-video-fallback" href="{{ item.video_url }}" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+                    </svg>
+                    <span>Watch video</span>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% if item.bio %}
         <div class="pd-description">
