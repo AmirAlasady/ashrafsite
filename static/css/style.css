@@ -321,8 +321,8 @@ section > h2 {
 .bestwork-track.is-ready { animation-play-state: running; }
 .bestwork-track.is-ready:hover { animation-play-state: paused; }
 .bestwork-item {
-    flex: 0 0 380px;
-    height: 250px;
+    flex: 0 0 480px;
+    height: 320px;
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--surface-2);
@@ -346,7 +346,7 @@ section > h2 {
 }
 
 @media (max-width: 700px) {
-    .bestwork-item { flex-basis: 280px; height: 190px; }
+    .bestwork-item { flex-basis: 340px; height: 230px; }
 }
 
 /* ---------- Services ---------- */
