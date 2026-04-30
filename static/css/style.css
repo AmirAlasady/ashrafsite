@@ -657,18 +657,25 @@ section > h2 {
     margin: 0 auto 2.5rem;
     font-size: clamp(2rem, 4vw, 3rem);
 }
-/* CSS columns = Pinterest-style masonry. Each image keeps its native
-   aspect ratio (no crop, no letterbox bars). Columns fill top-to-bottom,
-   so reading order is column-wise rather than row-wise. */
+/* Justified row mosaic. Each row has uniform height; image widths vary
+   by aspect ratio. Images flex-grow to fill any leftover row width, so
+   row right-edges always align cleanly. Image rendering uses object-fit
+   cover — the only edges that get cropped are the small amount where an
+   item stretched past its natural width to fill the row. */
 .bts-gallery-grid {
     max-width: var(--maxw);
     margin: 0 auto;
-    column-count: 4;
-    column-gap: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 .bts-gallery-item {
-    break-inside: avoid;
-    margin: 0 0 1rem;
+    /* flex-basis: auto starts each item at its image's natural width
+       (height-locked). flex-grow: 1 lets it stretch to fill remaining
+       row space. flex-shrink: 1 lets very narrow rows compress. */
+    flex: 1 1 auto;
+    height: 260px;
+    min-width: 180px;
     overflow: hidden;
     border-radius: var(--radius);
     position: relative;
@@ -676,7 +683,8 @@ section > h2 {
 }
 .bts-gallery-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
 }
@@ -689,14 +697,11 @@ section > h2 {
     color: var(--text);
     font-size: 0.8rem;
 }
-@media (max-width: 1100px) {
-    .bts-gallery-grid { column-count: 3; }
+@media (max-width: 900px) {
+    .bts-gallery-item { height: 220px; }
 }
-@media (max-width: 700px) {
-    .bts-gallery-grid { column-count: 2; column-gap: 0.75rem; }
-}
-@media (max-width: 460px) {
-    .bts-gallery-grid { column-count: 1; }
+@media (max-width: 600px) {
+    .bts-gallery-item { height: 180px; min-width: 140px; }
 }
 
 /* ---------- Casting page (large hero with bottom-left text + button) ---------- */
