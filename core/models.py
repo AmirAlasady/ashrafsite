@@ -153,6 +153,27 @@ class BTSGalleryImage(models.Model):
         return self.caption or f"BTS Gallery #{self.pk}"
 
 
+class BestWork(models.Model):
+    """Image shown on the home-page 'Our Best Works' auto-scrolling bar."""
+
+    image = models.ImageField(upload_to="best-works/")
+    caption = models.CharField(max_length=200, blank=True)
+    link = models.URLField(
+        blank=True,
+        help_text="Optional URL to open when the image is clicked.",
+    )
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+        verbose_name = "Best Work"
+        verbose_name_plural = "Best Works"
+
+    def __str__(self):
+        return self.caption or f"Best Work #{self.pk}"
+
+
 class CastingPage(models.Model):
     """Singleton-style content for the /casting/ page.
     Holds the call-to-action button + a default slide. For an auto-rotating

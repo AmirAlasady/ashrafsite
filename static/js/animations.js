@@ -103,14 +103,16 @@
         startAuto();
     }
 
-    function initClientsMarquee() {
-        var marquee = document.querySelector(".clients-marquee");
-        if (!marquee) return;
-        var track = marquee.querySelector(".clients-track");
-        if (!track) return;
-
+    function initMarqueeTrack(track) {
         var originalItems = Array.prototype.slice.call(track.children);
         if (!originalItems.length) return;
+
+        function getGap() {
+            var s = getComputedStyle(track);
+            var raw = s.columnGap !== "normal" ? s.columnGap : s.gap;
+            var v = parseFloat(raw || "0");
+            return isNaN(v) ? 0 : v;
+        }
 
         function setSetWidthAndClone() {
             // Reset to the original set only
@@ -118,13 +120,16 @@
                 track.removeChild(track.lastChild);
             }
 
+            var gap = getGap();
             var setWidth = 0;
             originalItems.forEach(function (el) { setWidth += el.offsetWidth; });
+            // Between two adjacent identical sets there's also one gap, so the
+            // stride per set is sum(widths) + n_items * gap.
+            setWidth += originalItems.length * gap;
             if (setWidth <= 0) return;
 
-            // Clone until total track width >= 3x viewport. That guarantees
-            // the visible portion always shows >= 2 viewports worth of items,
-            // so when the loop resets the right edge is never empty.
+            // Clone until track width is at least 3x viewport: guarantees that
+            // when the animation loops back, no empty space is exposed.
             var minWidth = Math.max(window.innerWidth * 3, setWidth * 2);
             var totalWidth = setWidth;
             while (totalWidth < minWidth) {
@@ -142,7 +147,6 @@
             track.classList.add("is-ready");
         }
 
-        // Wait for images so offsetWidth is accurate
         var imgs = track.querySelectorAll("img");
         var pending = imgs.length;
         if (pending === 0) {
@@ -160,7 +164,6 @@
                     });
                 }
             });
-            // Fallback in case events never fire
             setTimeout(setSetWidthAndClone, 1500);
         }
 
@@ -169,6 +172,11 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(setSetWidthAndClone, 200);
         });
+    }
+
+    function initMarquees() {
+        var tracks = document.querySelectorAll(".clients-track, .bestwork-track");
+        tracks.forEach(initMarqueeTrack);
     }
 
     function initCastingSlider() {
@@ -212,7 +220,7 @@
     function init() {
         initRevealAnimations();
         initBtsSlider();
-        initClientsMarquee();
+        initMarquees();
         initCastingSlider();
     }
 

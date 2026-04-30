@@ -6,6 +6,7 @@ from .models import (
     AboutInfo,
     BTSGalleryImage,
     BehindTheScenesImage,
+    BestWork,
     CastingPage,
     CastingSlide,
     Client,
@@ -27,6 +28,7 @@ def home(request):
         "hero": HeroSection.objects.filter(is_active=True).first(),
         "hero_description": hero_description,
         "clients": Client.objects.all(),
+        "best_works": BestWork.objects.all(),
         "bts_images": BehindTheScenesImage.objects.all(),
         "posts": Post.objects.filter(is_published=True)[:6],
     }

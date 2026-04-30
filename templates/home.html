@@ -76,6 +76,23 @@
     </ul>
 </section>
 
+{% if best_works %}
+<section class="bestwork" id="best-works" aria-label="Our best works">
+    <h2>Our Best Works</h2>
+    <div class="bestwork-marquee">
+        <ul class="bestwork-track">
+            {% for work in best_works %}
+                <li class="bestwork-item">
+                    {% if work.link %}<a href="{{ work.link }}" target="_blank" rel="noopener">{% endif %}
+                        <img src="{{ work.image.url }}" alt="{{ work.caption }}" loading="lazy">
+                    {% if work.link %}</a>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+
 {% if hero and hero.body_text %}
     <section class="hero-body-text">
         <p>{{ hero.body_text|linebreaks }}</p>

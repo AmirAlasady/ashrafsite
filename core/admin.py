@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import (
     AboutInfo,
     BehindTheScenesImage,
+    BestWork,
     BTSGalleryImage,
     CastingPage,
     CastingSlide,
@@ -58,6 +59,13 @@ class PostAdmin(admin.ModelAdmin):
 class BTSGalleryImageAdmin(admin.ModelAdmin):
     list_display = ("__str__", "order", "created_at")
     list_editable = ("order",)
+
+
+@admin.register(BestWork)
+class BestWorkAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "caption", "order", "created_at")
+    list_editable = ("order",)
+    search_fields = ("caption",)
 
 
 @admin.register(CastingPage)
