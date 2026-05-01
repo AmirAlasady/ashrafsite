@@ -214,7 +214,7 @@ After=network.target
 User=$USER
 Group=www-data
 WorkingDirectory=$PROJECT_DIR
-ExecStart=$PROJECT_DIR/venv/bin/gunicorn --access-logfile - --error-logfile - --workers 3 --bind unix:$PROJECT_DIR/gunicorn.sock agency.wsgi:application
+ExecStart=$PROJECT_DIR/venv/bin/gunicorn --access-logfile - --error-logfile - --workers 3 --timeout 600 --bind unix:$PROJECT_DIR/gunicorn.sock agency.wsgi:application
 Restart=on-failure
 
 [Install]
@@ -244,7 +244,8 @@ server {
     listen 80;
     server_name $SERVER_NAME;
 
-    client_max_body_size 200M;
+    client_max_body_size 2G;
+    client_body_timeout 600s;
 
     location = /favicon.ico {
         access_log off;
@@ -260,6 +261,8 @@ server {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_read_timeout 600s;
+        proxy_send_timeout 600s;
         proxy_pass http://unix:$PROJECT_DIR/gunicorn.sock;
     }
 }
