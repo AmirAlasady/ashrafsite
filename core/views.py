@@ -4,6 +4,7 @@ from team.models import Member
 
 from .models import (
     AboutInfo,
+    Banner,
     BTSGalleryImage,
     BehindTheScenesImage,
     BestWork,
@@ -29,6 +30,7 @@ def home(request):
         "hero_description": hero_description,
         "clients": Client.objects.all(),
         "best_works": BestWork.objects.all(),
+        "banners": Banner.objects.filter(is_active=True),
         "bts_images": BehindTheScenesImage.objects.all(),
         "posts": Post.objects.filter(is_published=True)[:6],
     }

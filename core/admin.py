@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import (
     AboutInfo,
+    Banner,
     BehindTheScenesImage,
     BestWork,
     BTSGalleryImage,
@@ -66,6 +67,31 @@ class BestWorkAdmin(admin.ModelAdmin):
     list_display = ("__str__", "caption", "order", "created_at")
     list_editable = ("order",)
     search_fields = ("caption",)
+
+
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ("title", "label", "is_active", "order", "created_at")
+    list_editable = ("is_active", "order")
+    search_fields = ("title", "label")
+    fieldsets = (
+        (None, {
+            "fields": ("title", "description", "label"),
+        }),
+        ("Media (use one, not both)", {
+            "fields": ("image", "video"),
+        }),
+        ("Optional button", {
+            "fields": ("button_label", "button_url"),
+        }),
+        ("Production details", {
+            "fields": ("production_type", "production_year", "production_quality"),
+            "description": "Shown next to the button: Type · Year · Quality.",
+        }),
+        ("Display", {
+            "fields": ("is_active", "order"),
+        }),
+    )
 
 
 @admin.register(CastingPage)

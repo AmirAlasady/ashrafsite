@@ -295,6 +295,140 @@ section > h2 {
     to   { transform: translateX(calc(-1 * var(--marquee-set-width, 100%))); }
 }
 
+/* ---------- Home banner (between Best Works and Our Clients) ---------- */
+.banner {
+    position: relative;
+    background: var(--bg);
+    padding: 6rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.banner-label {
+    position: absolute;
+    top: 4rem;
+    left: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.banner-text {
+    padding-left: 0;
+    max-width: 760px;
+    width: 100%;
+    justify-self: center;
+}
+.banner-title {
+    font-family: "GARODemo", serif;
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    color: var(--text);
+    margin: 0 0 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--accent);
+}
+.banner-description {
+    font-family: "Alyamama", sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(242, 242, 242, 0.75);
+    margin: 0 0 2rem;
+    max-width: none;
+}
+.banner-description p { margin: 0 0 0.5rem; }
+.banner-description p:last-child { margin-bottom: 0; }
+.banner-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+.banner-button {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+.banner-button:hover {
+    background: var(--text);
+    color: var(--bg);
+}
+.banner-meta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    position: relative;
+    padding-left: 1.25rem;
+}
+.banner-meta::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.25);
+}
+.banner-cta-row > .banner-meta:first-child {
+    padding-left: 0;
+}
+.banner-cta-row > .banner-meta:first-child::before {
+    display: none;
+}
+.banner-media {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    justify-self: start;
+}
+.banner-media img,
+.banner-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .banner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 4rem 1.5rem;
+    }
+    .banner-label {
+        position: static;
+        display: block;
+        margin-bottom: 1.5rem;
+    }
+    .banner-text {
+        padding-left: 0;
+        order: 2;
+    }
+    .banner-media {
+        order: 1;
+    }
+}
+
 /* ---------- Best Works (auto-scrolling image bar) ---------- */
 .bestwork {
     background: var(--bg);

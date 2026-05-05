@@ -98,6 +98,41 @@
     </section>
 {% endif %}
 
+{% for banner in banners %}
+    <section class="banner" aria-label="{{ banner.title }}">
+        {% if banner.label %}
+            <span class="banner-label">{{ banner.label }}</span>
+        {% endif %}
+        <div class="banner-text">
+            <h2 class="banner-title">{{ banner.title }}</h2>
+            {% if banner.description %}
+                <div class="banner-description">{{ banner.description|linebreaks }}</div>
+            {% endif %}
+            {% if banner.button_label and banner.button_url or banner.production_type or banner.production_year or banner.production_quality %}
+                <div class="banner-cta-row">
+                    {% if banner.button_label and banner.button_url %}
+                        <a class="banner-button" href="{{ banner.button_url }}" target="_blank" rel="noopener">
+                            {{ banner.button_label }}
+                        </a>
+                    {% endif %}
+                    {% if banner.production_type %}<span class="banner-meta">{{ banner.production_type }}</span>{% endif %}
+                    {% if banner.production_year %}<span class="banner-meta">{{ banner.production_year }}</span>{% endif %}
+                    {% if banner.production_quality %}<span class="banner-meta">{{ banner.production_quality }}</span>{% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="banner-media">
+            {% if banner.video %}
+                <video autoplay muted loop playsinline>
+                    <source src="{{ banner.video.url }}">
+                </video>
+            {% elif banner.image %}
+                <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+            {% endif %}
+        </div>
+    </section>
+{% endfor %}
+
 <section class="clients" id="clients">
     <h2>Our Clients</h2>
     {% if clients %}

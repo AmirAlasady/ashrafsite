@@ -153,6 +153,69 @@ class BTSGalleryImage(models.Model):
         return self.caption or f"BTS Gallery #{self.pk}"
 
 
+class Banner(models.Model):
+    """Wide promotional banner shown on the home page above Our Clients.
+    Each banner shows either an image OR a video on the right side, with the
+    title (GARO font) + description (Alyamama) + optional button on the left."""
+
+    title = models.CharField(
+        max_length=300,
+        help_text="Large headline, rendered in the GARO font (uppercase).",
+    )
+    description = models.TextField(blank=True, help_text="Smaller body text under the title.")
+    label = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text="Optional small tag shown on the far left of the banner (e.g. 'AWARDS').",
+    )
+    image = models.ImageField(
+        upload_to="banners/",
+        blank=True,
+        null=True,
+        help_text="Use either an image OR a video, not both.",
+    )
+    video = models.FileField(
+        upload_to="banners/",
+        blank=True,
+        null=True,
+        help_text="Use either an image OR a video, not both.",
+    )
+    button_label = models.CharField(max_length=80, blank=True)
+    button_url = models.URLField(blank=True)
+    production_type = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text="e.g. Documentary, TVC, Music Video.",
+    )
+    production_year = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        help_text="Year of production, e.g. 2025.",
+    )
+    production_quality = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text="Resolution, e.g. HD, 2K, 4K, 8K.",
+    )
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+        verbose_name = "Home Banner"
+        verbose_name_plural = "Home Banners"
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        if self.image and self.video:
+            raise ValidationError("Choose either an image or a video, not both.")
+
+
 class BestWork(models.Model):
     """Image shown on the home-page 'Our Best Works' auto-scrolling bar."""
 
